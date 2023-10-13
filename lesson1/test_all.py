@@ -302,15 +302,15 @@ def test_Z_A_sorting():
     # Вводим логин
     username_field = driver.find_element(By.XPATH, '//input[@data-test="username"]')
     username_field.send_keys("standard_user")
-    time.sleep(1)
+    # time.sleep(1)
     # Вводим пароль
     password_field = driver.find_element(By.XPATH, '//input[@data-test="password"]')
     password_field.send_keys("secret_sauce")
-    time.sleep(1)
+    # time.sleep(1)
     # Жмем кнопку логин
     login_button = driver.find_element(By.XPATH, '//input[@data-test="login-button"]')
     login_button.click()
-    time.sleep(1)
+    # time.sleep(1)
     #Вызов выпадающего списка фильтра
     select_list = driver.find_element(By.XPATH, '//select[@data-test="product_sort_container"]')
     select_list.click()
@@ -318,9 +318,11 @@ def test_Z_A_sorting():
     select_z_a = driver.find_element(By.XPATH, '//option[@value="za"]')
     select_z_a.click()
     #Проверка корректности сортировки
-    item_first = driver.find_element(By.CSS_SELECTOR, 'a[id="item_3_title_link"] > div[class="inventory_item_name"]').text
-    item_last = driver.find_element(By.CSS_SELECTOR, 'a[id="item_4_title_link"] > div[class="inventory_item_name"]').text
-    assert item_first[0] > item_last[0], 'Сортировка не сработала'
+    items = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="inventory_item_name"]')))
+    item_lst = []
+    for item in items:
+        item_lst.append(item.text)
+    assert item_lst == list(reversed(sorted(item_lst))), 'Сортировка не сработала'
     driver.quit()
 
 def test_A_Z_sorting():
@@ -348,13 +350,15 @@ def test_A_Z_sorting():
     select_a_z = driver.find_element(By.XPATH, '//option[@value="az"]')
     select_a_z.click()
     #Проверка корректности сортировки
-    item_first = driver.find_element(By.CSS_SELECTOR, 'a[id="item_4_title_link"] > div[class="inventory_item_name"]').text
-    item_last = driver.find_element(By.CSS_SELECTOR, 'a[id="item_3_title_link"] > div[class="inventory_item_name"]').text
-    assert item_first[0] < item_last[0], 'Сортировка не сработала'
+    items = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="inventory_item_name"]')))
+    item_lst = []
+    for item in items:
+        item_lst.append(item.text)
+    assert item_lst == list(sorted(item_lst)), 'Сортировка не сработала'
     driver.quit()
 
 
-def test_low_high_A_sorting():
+def test_low_to_high_sorting():
     driver = webdriver.Chrome()
     driver.get("https://www.saucedemo.com/")
     # Вводим логин
@@ -375,12 +379,15 @@ def test_low_high_A_sorting():
     # Выбор метода сортировки
     select_z_a = driver.find_element(By.XPATH, '//option[@value="lohi"]')
     select_z_a.click()
-    min_price = driver.find_element(By.CSS_SELECTOR, 'div:nth-of-type(1) > .inventory_item_description > .pricebar > .inventory_item_price').text
-    max_price = driver.find_element(By.CSS_SELECTOR, 'div:nth-of-type(6) > .inventory_item_description > .pricebar > .inventory_item_price').text
-    assert float(min_price[1:]) < float(max_price[1:])
+    prices = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="inventory_item_price"]')))
+    price_lst = []
+    for price in prices:
+        price_lst.append(float(price.text[1:]))
+
+    assert price_lst == list(sorted(price_lst)), 'Сортировка не сработала'
     driver.quit()
 
-def test_high_low_A_sorting():
+def test_high_to_low_sorting():
     driver = webdriver.Chrome()
     driver.get("https://www.saucedemo.com/")
     # Вводим логин
@@ -402,9 +409,11 @@ def test_high_low_A_sorting():
     select_z_a = driver.find_element(By.XPATH, '//option[@value="hilo"]')
     select_z_a.click()
     # Проверка корректности сортировки
-    max_price = driver.find_element(By.CSS_SELECTOR, 'div:nth-of-type(1) > .inventory_item_description > .pricebar > .inventory_item_price').text
-    min_price = driver.find_element(By.CSS_SELECTOR, 'div:nth-of-type(6) > .inventory_item_description > .pricebar > .inventory_item_price').text
-    assert float(min_price[1:]) < float(max_price[1:])
+    prices = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, '//div[@class="inventory_item_price"]')))
+    price_lst = []
+    for price in prices:
+        price_lst.append(float(price.text[1:]))
+    assert price_lst == list(reversed(sorted(price_lst))), 'Сортировка не сработала'
     driver.quit()
 
 #Бургер меню
@@ -499,15 +508,7 @@ def test_reset_app_state():
     driver.quit()
 
 
-    # try:
-    #     element = driver.find_element(By.XPATH, '//button[@data-test = "add-to-cart-sauce-labs-backpack"]')
-    #     print('Продукт удален')
-    # except NoSuchElementException:
-    #     # Если элемент не найден, обработать исключение NoSuchElementException
-    #     print("Продукт не удален")
-    #     return False
-    # finally:
-    #     driver.quit()
+
 
 
 
