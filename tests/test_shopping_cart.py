@@ -1,7 +1,10 @@
+import time
+from random import choice
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from conftest import driver, init_system
+from conftest import driver, init_system, authenticating
 from data.data import *
 from locators.locators import *
 
@@ -92,3 +95,19 @@ def test_click_on_item_name(driver, init_system): # Проверка перех�
     # Проверяем тот ли товар
     item_name = driver.find_element(By.XPATH, ITEM_NAME).text
     assert item_name == item, 'Товар не соответствует'
+
+
+# def test_remove_item_from_the_cart_list(driver, authenticating):
+#     random_items = driver.find_elements(By.CSS_SELECTOR, 'button.btn_inventory')
+#     first_item = choice(random_items)
+#     first_item.click()
+#     second_item = choice(random_items)
+#     second_item.click()
+#
+#     driver.get('https://www.saucedemo.com/cart.html')
+#     # driver.find_element(By.XPATH, "//a[@class='shopping_cart_link']").click()
+#     list_items_before = driver.find_elements(By.CSS_SELECTOR, 'div.cart_item') #2
+#     # driver.find_element(By.CSS_SELECTOR, 'button.cart_button').click()
+#     driver.find_elements(By.CSS_SELECTOR, 'button.cart_button')[0].click()
+#     list_items_after = driver.find_elements(By.CSS_SELECTOR, 'div.cart_item') #1
+#     assert len(list_items_before) == len(list_items_after) + 1

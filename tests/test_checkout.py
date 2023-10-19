@@ -1,10 +1,13 @@
+import time
 from selenium.webdriver.common.by import By
 from conftest import driver, init_system
 from data.data import *
 from locators.locators import *
+from faker import Faker
 
 # Оформление заказа
 def test_order_with_correct_data(driver, init_system): # Оформление заказа используя корректные данные
+    fake = Faker()
     # Авторизация
     init_system.authenticating(LOGIN, PASSWORD, driver)
     # Запоминаем товар
@@ -18,9 +21,9 @@ def test_order_with_correct_data(driver, init_system): # Оформление з
     # Переходим к оформлению заказа
     driver.find_element(By.XPATH, CHECKOUT_BUTTON).click()
     # Заполняем данные пользователя
-    driver.find_element(By.XPATH, USER_NAME).send_keys(FIRST_NAME)
-    driver.find_element(By.XPATH, USER_LAST_NAME).send_keys(LAST_NAME)
-    driver.find_element(By.XPATH, POSTAL_CODE).send_keys(POSTAL_CODE)
+    driver.find_element(By.XPATH, USER_NAME).send_keys(fake.first_name())
+    driver.find_element(By.XPATH, USER_LAST_NAME).send_keys(fake.last_name())
+    driver.find_element(By.XPATH, POSTAL_CODE).send_keys(fake.postcode())
     # Нажимаем кнопку Continue
     driver.find_element(By.XPATH, CONTINUE_BUTTON).click()
     # Запоминаем товар, который добавлен в заказ

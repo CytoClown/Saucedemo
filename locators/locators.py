@@ -1,4 +1,6 @@
 #AUTH
+import random
+
 USERNAME_PLACEHOLDER = '//input[@placeholder="Username"]'
 PASSWORD_PLACEHOLDER = '//input[@placeholder="Password"]'
 USERNAME_FIELD = '//input[@data-test="username"]'
@@ -9,6 +11,10 @@ ERROR_MSG = '//h3[@data-test="error"]'
 #Inventory
 ITEM_4 = 'a[id="item_4_title_link"]'
 ITEM_0 = 'a[id="item_0_title_link"]'
+RANDOM_ITEM = f'a[id=f"item_{random.randint(0,5)}_title_link"]'
+BUTTON_ON_PRODUCT_CARD = 'button[data-test^="add-to-cart"]'
+NAME_ON_PRODUCT_CARD = 'class="inventory_details_name large_size"'
+INVENTORY_ITEM_NAME = 'div[class="inventory_item_name"]'
 ADD_TO_CART_BUTTON_1 = '//button[@data-test="add-to-cart-sauce-labs-backpack"]'
 ADD_TO_CART_BUTTON_2 = '//button[@data-test="add-to-cart-sauce-labs-bike-light"]'
 SHOPPING_CART_BUTTON = '//a[@class="shopping_cart_link"]'

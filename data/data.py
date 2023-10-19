@@ -1,3 +1,4 @@
+
 # AUTH
 LOGIN = 'standard_user'
 PASSWORD = 'secret_sauce'
@@ -13,3 +14,4 @@ POSTAL_CODE = '123456'
 MAIN_PAGE = 'https://www.saucedemo.com/'
 INVENTORY_PAGE = 'https://www.saucedemo.com/inventory.html'
 CHECKOUT_URL = 'https://www.saucedemo.com/checkout-complete.html'
+
